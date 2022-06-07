@@ -20,5 +20,5 @@ data "ibm_is_instances" "example" {
 
 output "instance_count" {
   description = "Number of instances"
-  value = data.ibm_is_instances.example.instances.*.crn
+  value = data.ibm_is_instances.example.instances.crn
 }
