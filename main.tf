@@ -19,12 +19,11 @@ data "ibm_is_instances" "example" {
 }
 
 locals {
- FLAG = false
+  xyz = data.ibm_is_instances.example
 }
 
 output "instance_count" {
   #local.FLAG = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-  local.FLAG = data.ibm_is_instances.example
   description = "Number of instances"
-  value = local.FLAG
+  value = local.xyz
 }
