@@ -19,6 +19,7 @@ data "ibm_is_instances" "example" {
 }
 
 output "instance_count" {
+  flag = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
   description = "Number of instances"
-  value = data.ibm_is_instances.example.instances
+  value = flag
 }
