@@ -12,7 +12,6 @@ provider "ibm" {
 }
 
 resource ibm_is_vpc "vpc" {
-  generation = 1
   name = "myvpc"
 }
 
