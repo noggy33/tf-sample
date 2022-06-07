@@ -18,8 +18,12 @@ resource ibm_is_vpc "vpc" {
 data "ibm_is_instances" "example" {
 }
 
+variable "FLAG" {
+ default = false
+}
+
 output "instance_count" {
-  flag = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
+  var.FLAG = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
   description = "Number of instances"
-  value = flag
+  value = var.FLAG
 }
