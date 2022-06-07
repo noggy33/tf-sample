@@ -15,3 +15,5 @@ resource ibm_is_vpc "vpc" {
   name = "myvpc"
 }
 
+data "ibm_is_instances" "example" {
+}
