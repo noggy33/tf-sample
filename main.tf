@@ -19,7 +19,7 @@ data "ibm_is_instances" "example" {
 }
 
 locals {
-  xyz = data.ibm_is_instances.example.instances
+  xyz = length(data.ibm_is_instances.example.instances)
 }
 
 output "instance_count" {
