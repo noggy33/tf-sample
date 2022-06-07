@@ -18,7 +18,7 @@ resource ibm_is_vpc "vpc" {
 data "ibm_is_instances" "example" {
 }
 
-local {
+locals {
  FLAG = false
 }
 
