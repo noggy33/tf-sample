@@ -13,7 +13,7 @@ provider "ibm" {
 
 locals {
   BASENAME = "mytest"
-  ZONE = "jp-tok"
+  ZONE = "jp-tok-2"
 }
 
 resource ibm_is_vpc "vpc" {
