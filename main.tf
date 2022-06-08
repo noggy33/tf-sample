@@ -20,12 +20,12 @@ data "ibm_is_instances" "example" {
 
 locals {
   xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-#  abc = local.xyz ? data.ibm_is_instances.example.instances.0 : "hoge"
+  abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : "hoge"
 }
 
 output "instance_count" {
   #local.FLAG = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
   description = "Number of instances"
-  #value = local.abc
-  value = data.ibm_is_instances.example.instances.0.id
+  value = local.abc
+#  value = data.ibm_is_instances.example.instances.0.id
 }
