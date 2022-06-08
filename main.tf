@@ -12,7 +12,7 @@ provider "ibm" {
 }
 
 resource ibm_is_vpc "vpc" {
-  name = "myvpc"
+  name = "myvpc01"
 }
 
 data "ibm_is_instances" "example" {
