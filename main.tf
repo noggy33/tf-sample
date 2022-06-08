@@ -26,5 +26,6 @@ locals {
 output "instance_count" {
   #local.FLAG = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
   description = "Number of instances"
-  value = local.abc
+  #value = local.abc
+  value = data.ibm_is_instances.example
 }
