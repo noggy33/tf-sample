@@ -11,21 +11,31 @@ provider "ibm" {
   region = "jp-tok"
 }
 
+local {
+  BASENAME = "mytest"
+  ZONE = "jp-tok"
+}
+
 resource ibm_is_vpc "vpc" {
-  name = "myvpc01"
+  name = "${local.BASENAME}-vpc"
 }
 
-data "ibm_is_instances" "example" {
+resource ibm_is_security_group "sg1" {
+  name = "${local.BASENAME}-sg1"
+  vpc = ibm_is_vpc.vpc.id
 }
 
-locals {
-  xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-  abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : "hoge"
-}
+#data "ibm_is_instances" "example" {
+#}
 
-output "instance_count" {
+#locals {
+#  xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
+#  abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : "hoge"
+#}
+
+#output "instance_count" {
   #local.FLAG = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-  description = "Number of instances"
-  value = local.abc
+#  description = "Number of instances"
+#  value = local.abc
 #  value = data.ibm_is_instances.example.instances.0.id
-}
+#}
