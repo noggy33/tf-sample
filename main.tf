@@ -88,11 +88,11 @@ data "ibm_is_instances" "example" {
 
 locals {
   xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-#  abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : "hoge"
+  abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : "hoge"
 }
 
 output "instance_count" {
 #  description = "Number of instances"
-  value = local.xyz
+  value = local.abc
 #  value = data.ibm_is_instances.example.instances.0.id
 }
