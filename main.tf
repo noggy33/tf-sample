@@ -43,6 +43,18 @@ resource ibm_is_subnet "subnet1" {
   total_ipv4_address_count = 256
 }
 
+data ibm_is_image "ubuntu" {
+  name = "ibm-ubuntu-22-04-minimal-amd64-1"
+}
+
+data ibm_is_ssh_key "ssh_key_id" {
+ name = "myssh"
+}
+
+data ibm_resource_group "group" {
+  name = "Default"
+}
+
 #data "ibm_is_instances" "example" {
 #}
 
