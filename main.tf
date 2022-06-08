@@ -11,7 +11,7 @@ provider "ibm" {
   region = "jp-tok"
 }
 
-local {
+locals {
   BASENAME = "mytest"
   ZONE = "jp-tok"
 }
