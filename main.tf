@@ -20,7 +20,7 @@ data "ibm_is_instances" "example" {
 
 locals {
   xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-  abc = xyz ? data.ibm_is_instances.example.instances.1 : null
+  abc = xyz ? data.ibm_is_instances.example.instances.0 : null
 }
 
 output "instance_count" {
