@@ -89,10 +89,12 @@ data "ibm_is_instances" "example" {
 locals {
   xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
   abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : null
+  mode_default = "on"
+  mode = local.abc != null ? local.abc == "on" ? "off" : "on" : mode_default
 }
 
 output "instance_count" {
 #  description = "Number of instances"
-  value = local.abc
+  value = local.mode
 #  value = data.ibm_is_instances.example.instances.0.id
 }
