@@ -84,8 +84,6 @@ locals {
   #abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : null
   #mode_default = "hoge"
   #mode = local.xyz == true ? local.abc == "on" ? "off" : "on" : local.mode_default
-  #num = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-  #status = local.num ? data.ibm_is_instances.example.instances.0.id : null
 
   # 名前が"name"と一致するインスタンスを抽出する。
   name = "mytest-vsi1"
@@ -96,7 +94,14 @@ locals {
   is_target = length(local.target) >= 1 ? true : false
 
   # 既存インスタンスがあれば、statusを取得する。無ければ、"null"を設定する。
+  # - "name"と合致するインスタンスは、1つしかない前提
   status = local.is_target ? local.target.0.status : null
+
+  # 既存インスタンスの状態が"running"であれば止める。"running"で無ければ起動する。既存インスタンスがない場合は起動する。
+  # 既存インスタンスが存在しない場合の挙動が定まらないので、"is_target"が"false"の場合は、"action_default"を設定している。
+  action_default = "start"
+  action_next = local.is_target == true ? local.status == "running" ? "stop" : "start" : local.action_default
+
   new_group = {}
   exist_group = {}
 }
@@ -104,7 +109,7 @@ locals {
 output "instance_count" {
 #  description = "Number of instances"
 #  value = local.mode
-  value = local.status
+  value = local.action_next
 #  value = data.ibm_is_instances.example.instances.0.id
 }
 
