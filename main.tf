@@ -94,9 +94,10 @@ locals {
   # tag_result = concat(local.tag_next, local.tag_default.tags)
 }
 
-resource ibm_is_instance "preconf" {
+resource ibm_is_instance "vsi1" {
 
-  for_each = toset(local.tag_next)
+  #for_each = toset(local.tag_next)
+  count =0
 
   name = "${local.BASENAME}-vsi1"
   resource_group = "${data.ibm_resource_group.group.id}"
