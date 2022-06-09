@@ -65,12 +65,12 @@ locals {
   # 既存のインスタンスが存在するか確認する。
   is_target = length(local.target) >= 1 ? true : false
 
-  # 既存インスタンスがあれば、"tags"を取得する。無ければ、"null"を設定する。
+  # 既存インスタンスがあれば、"status"を取得する。無ければ、"null"を設定する。
   # - "name"と合致するインスタンスは、1つしかない前提
-  tag_current = local.is_target ? local.target.0.tags : null
+  status_current = local.is_target ? local.target.0.status : null
 
-  # 既存インスタンスの"tags"が"on"であれば"off"に変える。
-  #                           "on"で無ければ"on"にする。
+  # 既存インスタンスの"status"が"running"であれば"off"に変える。
+  #                           "running"で無ければ"on"にする。
   # 既存インスタンスがない場合はDefault値にする。
   tag_default = {
     tags = ["on"]
@@ -84,12 +84,12 @@ locals {
     tags = ["off"]
   }
 
-  # 現在のタグと設定したいタグが等しい場合、かつ、
+  # 既存インスタンスの状態が"running"の場合、かつ、
   #   - 現在のタグが"on"の場合: "tag_next"を"off"にする。
   #   - 現在のタグが"on"でない場合: "tag_next"を"on"にする。
-  # 現在のタグと設定したいタグが等しくない場合、
+  # 既存インスタンスの状態が"runnning"ではない場合、
   #   - "tag_next"は、空にする。
-  tag_next = local.tag_current == local.tag_default.tags.0 ? local.tag_current == "on" ? local.tag_off.tags : local.tag_on.tags : []
+  tag_next = local.is_instance == true ? local.status_current == "running" ? local.tag_off.tags : local.tag_on.tags : []
  
   tag_result = concat(local.tag_next, local.tag_default.tags)
 }
@@ -102,7 +102,7 @@ resource ibm_is_instance "vsi1" {
   keys = [data.ibm_is_ssh_key.ssh_key_id.id]
   image = data.ibm_is_image.ubuntu.id
   profile = "bx2-2x8"
-  # tags = local.tag_next.tags
+  tags = local.tag_result
 
   primary_network_interface {
     subnet = ibm_is_subnet.subnet1.id
