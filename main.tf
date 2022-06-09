@@ -87,9 +87,16 @@ locals {
   #num = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
   #status = local.num ? data.ibm_is_instances.example.instances.0.id : null
 
+  # 名前が"name"と一致するインスタンスを抽出する。
   name = "mytest-vsi1"
   target = [for i in data.ibm_is_instances.example.instances :
             i if i.name == local.name]
+
+  # 既存のインスタンスが存在するか確認する。
+  is_target = length(local.target) >= 1 ? true : false
+
+  # 既存インスタンスがあれば、statusを取得する。無ければ、"null"を設定する。
+  status = local.is_target ? local.target.0.status : null
   new_group = {}
   exist_group = {}
 }
@@ -97,7 +104,7 @@ locals {
 output "instance_count" {
 #  description = "Number of instances"
 #  value = local.mode
-  value = local.target
+  value = local.status
 #  value = data.ibm_is_instances.example.instances.0.id
 }
 
