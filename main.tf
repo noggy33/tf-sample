@@ -89,14 +89,15 @@ locals {
   #   - 現在のタグが"on"でない場合: "tag_next"を"on"にする。
   # 既存インスタンスの状態が"runnning"ではない場合、
   #   - "tag_next"は、空にする。
-  tag_next = local.is_target == true ? local.status_current == "stoped" ? local.tag_off.tags : local.tag_on.tags : []
-  #tag_next = local.is_target == true ? local.status_current == "running" ? local.tag_off.tags : local.tag_on.tags : []
+  tag_next = local.is_target == true ? local.status_current == "running" ? local.tag_off.tags : local.tag_on.tags : []
  
   tag_result = concat(local.tag_next, local.tag_default.tags)
 }
 
 resource ibm_is_instance "vsi1" {
-  #count = 0
+
+  for_each = local.tag_result
+
   name = "${local.BASENAME}-vsi1"
   resource_group = "${data.ibm_resource_group.group.id}"
   vpc = ibm_is_vpc.vpc.id
@@ -104,13 +105,31 @@ resource ibm_is_instance "vsi1" {
   keys = [data.ibm_is_ssh_key.ssh_key_id.id]
   image = data.ibm_is_image.ubuntu.id
   profile = "bx2-2x8"
-  tags = local.tag_result
+
+  tags = [each.value]
 
   primary_network_interface {
     subnet = ibm_is_subnet.subnet1.id
     security_groups = [ibm_is_security_group.sg1.id]
   }
 }
+
+#resource ibm_is_instance "vsi1" {
+#  #count = 0
+#  name = "${local.BASENAME}-vsi1"
+#  resource_group = "${data.ibm_resource_group.group.id}"
+#  vpc = ibm_is_vpc.vpc.id
+#  zone = "${local.ZONE}"
+#  keys = [data.ibm_is_ssh_key.ssh_key_id.id]
+#  image = data.ibm_is_image.ubuntu.id
+#  profile = "bx2-2x8"
+#  tags = local.tag_result
+#
+#  primary_network_interface {
+#    subnet = ibm_is_subnet.subnet1.id
+#    security_groups = [ibm_is_security_group.sg1.id]
+#  }
+#}
 
 
 data "ibm_is_instances" "example" {
