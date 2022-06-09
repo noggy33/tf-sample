@@ -96,7 +96,7 @@ locals {
 
 resource ibm_is_instance "vsi1" {
 
-  for_each = local.tag_result
+  for_each = toset(local.tag_result)
 
   name = "${local.BASENAME}-vsi1"
   resource_group = "${data.ibm_resource_group.group.id}"
