@@ -72,15 +72,15 @@ locals {
   # 既存インスタンスの状態が"running"であれば止める。"running"で無ければ起動する。既存インスタンスがない場合は起動する。
   # 既存インスタンスが存在しない場合の挙動が定まらないので、"is_target"が"false"の場合は、"action_default"を設定している。
   tag_cf1 = {
-    tags = "cf1"
+    tags = ["cf1"]
   }
 
   tag_cf2 = {
-    tags = "cf2"
+    tags = ["cf2"]
   }
 
   tag_default = {
-    tags = "initial"
+    tags = ["initial"]
   }
 
   tag_next = local.is_target == true ? local.status == "running" ? local.tag_cf1 : local.tag_cf2 : local.tag_default
