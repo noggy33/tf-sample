@@ -129,26 +129,8 @@ resource ibm_is_instance "vsi1" {
     subnet = ibm_is_subnet.subnet1.id
     security_groups = [ibm_is_security_group.sg1.id]
   }
-  depend_on = [ibm_is_instance.preconf]
+  depends_on = [ibm_is_instance.preconf]
 }
-
-#resource ibm_is_instance "vsi1" {
-#  #count = 0
-#  name = "${local.BASENAME}-vsi1"
-#  resource_group = "${data.ibm_resource_group.group.id}"
-#  vpc = ibm_is_vpc.vpc.id
-#  zone = "${local.ZONE}"
-#  keys = [data.ibm_is_ssh_key.ssh_key_id.id]
-#  image = data.ibm_is_image.ubuntu.id
-#  profile = "bx2-2x8"
-#  tags = local.tag_result
-#
-#  primary_network_interface {
-#    subnet = ibm_is_subnet.subnet1.id
-#    security_groups = [ibm_is_security_group.sg1.id]
-#  }
-#}
-
 
 data "ibm_is_instances" "example" {
 }
@@ -159,8 +141,7 @@ output vpc_id {
 
 output "instance_count" {
 #  description = "Number of instances"
-  #value = local.tag_next
-  value = local.tag_result
+  value = local.tag_next
 #  value = data.ibm_is_instances.example.instances.0.id
 }
 
