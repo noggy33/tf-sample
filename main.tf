@@ -99,17 +99,25 @@ locals {
 
   # 既存インスタンスの状態が"running"であれば止める。"running"で無ければ起動する。既存インスタンスがない場合は起動する。
   # 既存インスタンスが存在しない場合の挙動が定まらないので、"is_target"が"false"の場合は、"action_default"を設定している。
-  action_default = "start"
-  action_next = local.is_target == true ? local.status == "running" ? "stop" : "start" : local.action_default
+  tag_cf1 = {
+    tags = "cf1"
+  }
 
-  new_group = {}
-  exist_group = {}
+  tag_cf2 = {
+    tags = "cf2"
+  }
+
+  tag_default = {
+    tags = "initial"
+  }
+
+  tag_next = local.is_target == true ? local.status == "running" ? tag_cf1 : tag_cf2 : local.tag_default
 }
 
 output "instance_count" {
 #  description = "Number of instances"
 #  value = local.mode
-  value = local.action_next
+  value = local.tag_next
 #  value = data.ibm_is_instances.example.instances.0.id
 }
 
