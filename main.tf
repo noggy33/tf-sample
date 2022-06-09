@@ -56,8 +56,7 @@ data ibm_resource_group "group" {
 }
 
 resource ibm_is_instance "vsi1" {
-  # count = 0
-  action = "stop"
+  count = 0
   name = "${local.BASENAME}-vsi1"
   resource_group = "${data.ibm_resource_group.group.id}"
   vpc = ibm_is_vpc.vpc.id
