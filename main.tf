@@ -55,35 +55,7 @@ data ibm_resource_group "group" {
   name = "Default"
 }
 
-resource ibm_is_instance "vsi1" {
-  count = 0
-  name = "${local.BASENAME}-vsi1"
-  resource_group = "${data.ibm_resource_group.group.id}"
-  vpc = ibm_is_vpc.vpc.id
-  zone = "${local.ZONE}"
-  keys = [data.ibm_is_ssh_key.ssh_key_id.id]
-  image = data.ibm_is_image.ubuntu.id
-  profile = "bx2-2x8"
-
-  primary_network_interface {
-    subnet = ibm_is_subnet.subnet1.id
-    security_groups = [ibm_is_security_group.sg1.id]
-  }
-}
-
-
-output vpc_id {
-  value = ibm_is_vpc.vpc.id
-}
-
-data "ibm_is_instances" "example" {
-}
-
 locals {
-  #xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-  #abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : null
-  #mode_default = "hoge"
-  #mode = local.xyz == true ? local.abc == "on" ? "off" : "on" : local.mode_default
 
   # 名前が"name"と一致するインスタンスを抽出する。
   name = "mytest-vsi1"
@@ -112,6 +84,30 @@ locals {
   }
 
   tag_next = local.is_target == true ? local.status == "running" ? local.tag_cf1 : local.tag_cf2 : local.tag_default
+}
+
+resource ibm_is_instance "vsi1" {
+  name = "${local.BASENAME}-vsi1"
+  resource_group = "${data.ibm_resource_group.group.id}"
+  vpc = ibm_is_vpc.vpc.id
+  zone = "${local.ZONE}"
+  keys = [data.ibm_is_ssh_key.ssh_key_id.id]
+  image = data.ibm_is_image.ubuntu.id
+  profile = "bx2-2x8"
+  tags = local.tag_next.tags
+
+  primary_network_interface {
+    subnet = ibm_is_subnet.subnet1.id
+    security_groups = [ibm_is_security_group.sg1.id]
+  }
+}
+
+
+data "ibm_is_instances" "example" {
+}
+
+output vpc_id {
+  value = ibm_is_vpc.vpc.id
 }
 
 output "instance_count" {
