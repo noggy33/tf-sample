@@ -80,15 +80,16 @@ data "ibm_is_instances" "example" {
 }
 
 locals {
-  xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
-  abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : null
+  #xyz = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
+  #abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : null
+  #mode_default = "hoge"
+  #mode = local.xyz == true ? local.abc == "on" ? "off" : "on" : local.mode_default
   #num = length(data.ibm_is_instances.example.instances) >= 1 ? true : false
   #status = local.num ? data.ibm_is_instances.example.instances.0.id : null
-  mode_default = "hoge"
-  mode = local.xyz == true ? local.abc == "on" ? "off" : "on" : local.mode_default
+
   name = "mytest-vsi1"
-  instances = [data.ibm_is_instances.example.instances.*.name]
-  target = [for i in local.instances : i if i == name]
+  target = [for i in data.ibm_is_instances.example.instances :
+            i if i.name == local.name]
   new_group = {}
   exist_group = {}
 }
