@@ -67,7 +67,7 @@ locals {
 
   # 既存インスタンスがあれば、"tags"を取得する。無ければ、"null"を設定する。
   # - "name"と合致するインスタンスは、1つしかない前提
-  tag_current = local.is_target ? local.target.0.tags : null
+  tag_current = local.is_target ? [local.target.0.tags] : null
 
   # 既存インスタンスの"tags"が"on"であれば"off"に変える。
   #                           "on"で無ければ"on"にする。
