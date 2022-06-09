@@ -112,6 +112,7 @@ resource ibm_is_instance "preconf" {
     subnet = ibm_is_subnet.subnet1.id
     security_groups = [ibm_is_security_group.sg1.id]
   }
+  depends_on = [ibm_is_instance.vsi1]
 }
 
 resource ibm_is_instance "vsi1" {
@@ -129,7 +130,6 @@ resource ibm_is_instance "vsi1" {
     subnet = ibm_is_subnet.subnet1.id
     security_groups = [ibm_is_security_group.sg1.id]
   }
-  depends_on = [ibm_is_instance.preconf]
 }
 
 data "ibm_is_instances" "example" {
