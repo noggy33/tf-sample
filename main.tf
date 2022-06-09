@@ -84,6 +84,11 @@ locals {
   }
 
   tag_next = local.is_target == true ? local.status == "running" ? local.tag_cf1 : local.tag_cf2 : local.tag_default
+#   mode_next = local.mode == local.mode_initial ? local.mode == "on" ? ["off"] : ["on"] : []
+#   mode_list = concat(mode_next, mode_default)
+  empty = []
+  numbers = ["one", "two", "three"]
+  test_list = concat(local.empty, local.numbers)
 }
 
 resource ibm_is_instance "vsi1" {
@@ -112,8 +117,8 @@ output vpc_id {
 
 output "instance_count" {
 #  description = "Number of instances"
-#  value = local.mode
-  value = local.tag_next
+  #value = local.tag_next
+  value = local.test_list
 #  value = data.ibm_is_instances.example.instances.0.id
 }
 
