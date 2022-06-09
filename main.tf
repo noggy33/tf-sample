@@ -111,7 +111,7 @@ locals {
     tags = "initial"
   }
 
-  tag_next = local.is_target == true ? local.status == "running" ? tag_cf1 : tag_cf2 : local.tag_default
+  tag_next = local.is_target == true ? local.status == "running" ? local.tag_cf1 : local.tag_cf2 : local.tag_default
 }
 
 output "instance_count" {
