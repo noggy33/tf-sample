@@ -71,15 +71,6 @@ resource ibm_is_instance "vsi1" {
   }
 }
 
-#resource ibm_is_floating_ip "fip1" {
-#  count = 0
-#  name = "${local.BASENAME}-fip1"
-#  target = ibm_is_instance.vsi1.primary_network_interface.0.id
-#}
-
-#output sshcommand {
-#  value = "ssh root@${ibm_is_floating_ip.fip1.address}"
-#}
 
 output vpc_id {
   value = ibm_is_vpc.vpc.id
@@ -93,10 +84,16 @@ locals {
   abc = local.xyz ? data.ibm_is_instances.example.instances.0.id : null
   mode_default = "hoge"
   mode = local.xyz == true ? local.abc == "on" ? "off" : "on" : local.mode_default
+  new_group = {}
+  exist_group = {}
 }
 
 output "instance_count" {
 #  description = "Number of instances"
   value = local.mode
 #  value = data.ibm_is_instances.example.instances.0.id
+}
+
+output "instances" {
+  value = data.ibm_is_instances
 }
