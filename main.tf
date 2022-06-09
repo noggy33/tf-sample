@@ -95,5 +95,5 @@ output "instance_count" {
 }
 
 output "instances" {
-  value = data.ibm_is_instances
+  value = data.ibm_is_instances.example
 }
