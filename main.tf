@@ -89,7 +89,7 @@ locals {
   #   - 現在のタグが"on"でない場合: "tag_next"を"on"にする。
   # 既存インスタンスの状態が"runnning"ではない場合、
   #   - "tag_next"は、空にする。
-  tag_next = local.is_instance == true ? local.status_current == "running" ? local.tag_off.tags : local.tag_on.tags : []
+  tag_next = local.is_target == true ? local.status_current == "running" ? local.tag_off.tags : local.tag_on.tags : []
  
   tag_result = concat(local.tag_next, local.tag_default.tags)
 }
