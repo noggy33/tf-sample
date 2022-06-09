@@ -86,7 +86,9 @@ locals {
   #status = local.num ? data.ibm_is_instances.example.instances.0.id : null
   mode_default = "hoge"
   mode = local.xyz == true ? local.abc == "on" ? "off" : "on" : local.mode_default
-  targets = [data.ibm_is_instances.example.instances.*.name]
+  name = "mytest-vsi1"
+  instances = [data.ibm_is_instances.example.instances.*.name]
+  target = [for i in local.instances : i if i == name]
   new_group = {}
   exist_group = {}
 }
@@ -94,7 +96,7 @@ locals {
 output "instance_count" {
 #  description = "Number of instances"
 #  value = local.mode
-  value = local.targets
+  value = local.target
 #  value = data.ibm_is_instances.example.instances.0.id
 }
 
