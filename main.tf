@@ -100,7 +100,7 @@ resource null_resource "preset" {
     interpreter = ["/bin/bash", "-c"]
     command = <<EOT
       echo hoge
-      ibmcloud help
+      ibmcloud resource groups --output json
     EOT
   }
 }
