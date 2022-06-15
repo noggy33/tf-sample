@@ -95,7 +95,7 @@ locals {
 }
 
 resource null_resource "preset" {
-  provisioner "local-exec {
+  provisioner "local-exec" {
     on_failure = "fail"
     interpreter = ["/bin/bash", "-c"]
     command = <<EOT
