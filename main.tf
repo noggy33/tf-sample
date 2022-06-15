@@ -94,6 +94,17 @@ locals {
   # tag_result = concat(local.tag_next, local.tag_default.tags)
 }
 
+resource null_resource "preset" {
+  provisioner "local-exec {
+    on_failure = "fail"
+    interpreter = ["/bin/bash", "-c"]
+    command = <<EOT
+      echo hoge
+      ibmcloud help
+    EOT
+  }
+}
+
 resource ibm_is_instance "vsi1" {
 
   name = "${local.BASENAME}-vsi1"
