@@ -100,6 +100,7 @@ resource null_resource "preset" {
     interpreter = ["/bin/bash", "-c"]
     command = <<EOT
       echo hoge
+      ibmcloud target -r ja-tok
       ibmcloud is regions
       ibmcloud is vpcs
       ibmcloud is instances
