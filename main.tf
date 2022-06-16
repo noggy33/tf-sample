@@ -105,7 +105,7 @@ resource null_resource "preset" {
       echo ${local.instance_id}
       ibmcloud target -r jp-tok
       ibmcloud is vpcs
-      ibmcloud is instances
+      ibmcloud is instance ${local.instance_id}
     EOT
   }
   triggers = {
