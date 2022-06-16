@@ -68,6 +68,7 @@ locals {
   # 既存インスタンスがあれば、"status"を取得する。無ければ、"null"を設定する。
   # - "name"と合致するインスタンスは、1つしかない前提
   status_current = local.is_target ? local.target.0.status : null
+  instance_id = local.is_target ? local.target.0.id : null
 
   # 既存インスタンスの"status"が"running"であれば"off"に変える。
   #                           "running"で無ければ"on"にする。
@@ -101,6 +102,7 @@ resource null_resource "preset" {
     command = <<EOT
       echo hoge
       echo ${local.name}
+      echo ${local.instance_id}
       ibmcloud target -r jp-tok
       ibmcloud is vpcs
       ibmcloud is instances
