@@ -100,7 +100,9 @@ resource null_resource "preset" {
     interpreter = ["/bin/bash", "-c"]
     command = <<EOT
       echo hoge
-      ibmcloud resource groups --output json
+      ibmcloud is regions
+      ibmcloud is vpcs
+      ibmcloud is instances
     EOT
   }
   triggers = {
