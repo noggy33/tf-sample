@@ -96,12 +96,15 @@ locals {
 
 resource null_resource "preset" {
   provisioner "local-exec" {
-    on_failure = "fail"
+    on_failure = fail
     interpreter = ["/bin/bash", "-c"]
     command = <<EOT
       echo hoge
       ibmcloud resource groups --output json
     EOT
+  }
+  triggers = {
+    always_run = "${timestamp()}"
   }
 }
 
