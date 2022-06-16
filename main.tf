@@ -111,6 +111,7 @@ resource null_resource "preset" {
   triggers = {
     always_run = "${timestamp()}"
   }
+  depends_on = [ibm_is_instance.vsi1]
 }
 
 resource ibm_is_instance "vsi1" {
