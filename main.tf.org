@@ -102,10 +102,7 @@ resource null_resource "preset" {
     command = <<EOT
       echo hoge
       echo ${local.name}
-      if [ ${local.status_current} ==  "running" ]
-      then
-        echo ${local.instance_id}
-      fi
+      echo ${local.instance_id}
       ibmcloud target -r jp-tok
       ibmcloud is vpcs
       ibmcloud is instance ${local.instance_id}
